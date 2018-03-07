@@ -6,8 +6,8 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsConfig
 
-case class TwitterUser(id: Long, name: String, screenName: String)
-case class TwitterStatus(id: Long, createdAt: String, text: String, user: TwitterUser)
+
+case class TwitterStatus(Text: String)
 
 case class InLineAverage(count: Int, sum: Int) {
   def avg =

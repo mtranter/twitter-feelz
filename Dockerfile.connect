@@ -1,0 +1,10 @@
+FROM confluentinc/cp-kafka-connect:4.0.0
+
+RUN mkdir /tmp/kafka-connect-twitter && \
+    mkdir /usr/share/java/kafka-connect-twitter && \
+    curl -L -o /tmp/kafka-connect-twitter/kafka-connect-twitter-0.2.25.tar.gz 'https://github.com/jcustenborder/kafka-connect-twitter/releases/download/0.2.25/kafka-connect-twitter-0.2.25.tar.gz'
+
+RUN tar -xvf /tmp/kafka-connect-twitter/kafka-connect-twitter-0.2.25.tar.gz -C /tmp/kafka-connect-twitter/ && \
+    mv /tmp/kafka-connect-twitter/usr/share/kafka-connect/kafka-connect-twitter /usr/share/java
+
+ENV CONNECT_PLUGIN_PATH=/usr/share/java

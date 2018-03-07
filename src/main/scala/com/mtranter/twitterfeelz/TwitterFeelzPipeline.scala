@@ -31,7 +31,7 @@ class TwitterFeelzPipeline extends Serializers {
 
     val tweetWithKeywords = (t:TwitterStatus) =>
       keywordValues
-        .filter(t.text.toLowerCase().contains)
+        .filter(t.Text.toLowerCase().contains)
         .map(_-> t)
 
     // Get the global list of KeyWords to be watched for in the twitter stream.
@@ -40,11 +40,11 @@ class TwitterFeelzPipeline extends Serializers {
 
 
     // Listen for tweets coming into kafka on the 'tweets' topic
-    builder.stream[String, TwitterStatus]("tweets", Consumed.`with`[String, TwitterStatus](stringSerde,serdeFor[TwitterStatus]))
+    builder.stream[Long, TwitterStatus]("tweets", Consumed.`with`[Long, TwitterStatus](longSerde,serdeFor[TwitterStatus]))
       // Fan-out each tweet, matching a tweet against the keywords it contains
       .flatMap((_,t) => tweetWithKeywords(t))
       // Do Sentiment Analysis
-      .map((k,v) => (k, Feelz.findSentiment(v.text)))
+      .map((k,v) => (k, Feelz.findSentiment(v.Text)))
       // Group by Keyword for aggregation
       .groupByKey(Serialized.`with`(stringSerde,intSerde))
       // In-line average calculation: Reduce stream

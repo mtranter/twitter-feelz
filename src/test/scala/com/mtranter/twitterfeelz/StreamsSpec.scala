@@ -1,6 +1,6 @@
 package com.mtranter.twitterfeelz
 
-import com.mtranter.twitterfeelz.models.{Config, InLineAverage, TwitterStatus, TwitterUser}
+import com.mtranter.twitterfeelz.models.{Config, InLineAverage, TwitterStatus}
 import org.apache.kafka.common.serialization.{Serdes, Serializer}
 import org.apache.kafka.streams.state.QueryableStoreTypes
 import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
@@ -16,6 +16,7 @@ class StreamsSpec extends FunSpec with Matchers with BeforeAndAfterEach {
   override protected def afterEach() = {
     kafkaLocalServer.close()
   }
+  var tweetCount = 0l
 
   describe("The streams") {
     it("should rate tweets") {
@@ -55,9 +56,10 @@ class StreamsSpec extends FunSpec with Matchers with BeforeAndAfterEach {
       }
     }
 
+
     def sendTweet(tweet: String) =
       kafkaLocalServer.produce("tweets",
-        Seq(1l.toString -> TwitterStatus(1, "2018-1-1T12:00:00z", tweet, TwitterUser(2, "mtranter","mtranter"))),
+        Seq((tweetCount += 1) -> TwitterStatus( tweet)),
         Serdes.String().serializer().asInstanceOf[Serializer[Any]],
         AvroSerializer[TwitterStatus]()
       )

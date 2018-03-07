@@ -1,2 +1,4 @@
 .idea/
 target/
+twitter-connect.json
+setup-twitter-creds.sh

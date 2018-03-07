@@ -14,6 +14,7 @@ trait Serializers {
   val stringSerde: Serde[String] = Serdes.String()
   val intSerde: Serde[Int] = Serdes.Integer().asInstanceOf[Serde[Int]]
   val doubleSerde: Serde[Double] = Serdes.Double().asInstanceOf[Serde[Double]]
+  val longSerde: Serde[Long] = Serdes.Long().asInstanceOf[Serde[Long]]
 }
 
 object AvroSerializer {
