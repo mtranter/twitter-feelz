@@ -9,7 +9,7 @@ import edu.stanford.nlp.trees.Tree
 import scala.collection.JavaConverters._
 
 object Feelz {
-  var pipeline: StanfordCoreNLP = new StanfordCoreNLP("nlp.properties")
+  val pipeline: StanfordCoreNLP = new StanfordCoreNLP("nlp.properties")
 
   private def getPredClass(tree: Tree) = RNNCoreAnnotations.getPredictedClass(tree)
 

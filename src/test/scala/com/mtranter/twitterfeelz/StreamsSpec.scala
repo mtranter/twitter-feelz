@@ -54,13 +54,18 @@ class StreamsSpec extends FunSpec with Matchers with BeforeAndAfterEach {
         streams.close()
         streams.cleanUp()
       }
+
     }
 
 
+    def nextTweetId = {
+      tweetCount += 1
+      tweetCount
+    }
     def sendTweet(tweet: String) =
       kafkaLocalServer.produce("tweets",
-        Seq((tweetCount += 1) -> TwitterStatus( tweet)),
-        Serdes.String().serializer().asInstanceOf[Serializer[Any]],
+        Seq(nextTweetId -> TwitterStatus( tweet)),
+        Serdes.Long().serializer().asInstanceOf[Serializer[Any]],
         AvroSerializer[TwitterStatus]()
       )
   }
